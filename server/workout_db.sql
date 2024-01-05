@@ -8,7 +8,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE run (
-    run_id INT PRIMARY KEY AUTO_INCREMENT,
+    run_id SERIAL PRIMARY KEY,
     date DATE,
     distance DECIMAL(10,2),
     duration TIME,
@@ -18,7 +18,7 @@ CREATE TABLE run (
 
 
 CREATE TABLE walk (
-    walk_id INT PRIMARY KEY AUTO_INCREMENT,
+    walk_id SERIAL PRIMARY KEY,
     date DATE,
     distance DECIMAL(10,2),
     duration TIME,
@@ -27,7 +27,7 @@ CREATE TABLE walk (
 );
 
 CREATE TABLE bike (
-    bike_id INT PRIMARY KEY AUTO_INCREMENT,
+    bike_id SERIAL PRIMARY KEY,
     date DATE,
     distance DECIMAL(10,2),
     duration TIME,
