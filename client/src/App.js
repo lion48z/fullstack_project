@@ -9,6 +9,7 @@ function App() {
   //create state variable to store auth token and logged in status
   const [token, setToken] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+ 
 
   //handleLogin
   const handleLogin = async () => {
@@ -40,9 +41,7 @@ function App() {
       alert('An error occurred while logging in.');
     }
   }
-  const handleRegistration = async () => {
-    
-  }
+ 
 
   return (
     <div>
@@ -65,7 +64,7 @@ function App() {
           onChange={(e) => setPassword(e.target.value)}
         />      
 
-        <button onClick={handleLogin}>Log In</button>
+       <button onClick={handleLogin}>Log In</button>
 
       </div>
     </div>
