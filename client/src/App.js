@@ -40,6 +40,9 @@ function App() {
       alert('An error occurred while logging in.');
     }
   }
+  const handleRegistration = async () => {
+    
+  }
 
   return (
     <div>
