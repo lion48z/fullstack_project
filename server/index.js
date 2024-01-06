@@ -11,7 +11,7 @@ const app = express();
 app.use(cors()); // middleware for allowing cross origin resource sharing 
 app.use(express.json()); // built in middleware for parsing json sent in requests 
  // use Pool from pg package to create database connection
- //good idea to put all in env file
+ 
  const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
