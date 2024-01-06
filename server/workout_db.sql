@@ -6,11 +6,12 @@ CREATE TABLE users (
     password VARCHAR(100) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL
 );
-ALTER TABLE users  -- may not need  to change this can limit access to information for other users 
-DROP COLUMN email;
-
 ALTER TABLE users
-DROP COLUMN password;
+DROP COLUMN user_name;
+ALTER TABLE users
+ADD COLUMN username VARCHAR(25) UNIQUE NOT NULL;
+
+
 
 CREATE TABLE run (
     run_id SERIAL PRIMARY KEY,
