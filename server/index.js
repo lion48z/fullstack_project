@@ -45,7 +45,7 @@ app.get('/dashboard', authenticateToken, async (req, res) => {
   const userId = req.user.id;
   try {
     // Fetch user's total distance accumulated and recent activities (runs, walks, and bikes)
-//UNION ALL operator to comone the results of multiple sets fo SELECT statements 
+//UNION ALL operator to combine the results of multiple sets fo SELECT statements 
 //COALESCE function returns first non-null expression used to handle cases where no data for 
 //particular activity `COALESCE(SUM(distance),0) ensures if no records it will show 0
     const result = await pool.query(
@@ -67,9 +67,9 @@ app.get('/dashboard', authenticateToken, async (req, res) => {
           "'bike' AS activity_type, bike_id AS activity_id, date, distance, duration, user_id " +
           'COALESCE((SELECT COALESCE(SUM(distance), 0) FROM bike WHERE user_id = $1), 0) AS total_distance_accumulated ' +
         'FROM bike ' +
-        'WHERE user_id = $1 ' +
+        'WHERE user_id = $1 ' +    //user's id 
       ') AS all_activities ' +
-      'ORDER BY date DESC',
+      'ORDER BY date DESC',       //most recent activity
       [userId]
     );
     const dashboardData = result.rows;
@@ -79,8 +79,6 @@ app.get('/dashboard', authenticateToken, async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-
-
 
  //post request handler for registration
 app.post('/register', async (req, res) => {
