@@ -41,6 +41,13 @@ function App() {
       alert('An error occurred while logging in.');
     }
   }
+ /* const handleRegistration = () => {
+    const [formData, setFormData] = useState({
+      username:"",
+      email: "",
+      password: "",
+    });
+  const { username, email, password } = formData   //hashed password?? */
  
 
   return (
