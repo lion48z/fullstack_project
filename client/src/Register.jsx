@@ -30,7 +30,7 @@ try {
 } catch (error) {
   alert('Registration failed', error.response.data)
 }
-}
+};
 
   return (
     <div>

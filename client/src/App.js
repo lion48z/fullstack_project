@@ -41,20 +41,11 @@ function App() {
       alert('An error occurred while logging in.');
     }
   }
- /* const handleRegistration = () => {
-    const [formData, setFormData] = useState({
-      username:"",
-      email: "",
-      password: "",
-    });
-  const { username, email, password } = formData   //hashed password?? */
- 
+
 
   return (
     <div>
       <h1>Basic Full Stack - Last Name DB Search</h1>
-
-
       {/* UI for log in form */}
       <div>
         <input
