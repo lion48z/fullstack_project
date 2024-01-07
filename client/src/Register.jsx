@@ -37,24 +37,21 @@ try {
     <form onSubmit={onSubmit}>
       <input
         type="text"
-        placeholder="Username"
-        name="username"
+        placeholder="Username"        
         value={username}
         onChange={onChange}
       />
       <br />
       <input
         type="email"
-        placeholder="Email"
-        name="email"
+        placeholder="Email"        
         value={email}
         onChange={onChange}
       />
       <br />
       <input
         type="password"
-        placeholder="Password"
-        name="password"
+        placeholder="Password"       
         value={password}
         onChange={onChange}
       />
