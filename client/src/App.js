@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Register from './Register';
+import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom';
+import  Register  from './Register';
 import axios from 'axios';
 
 
@@ -45,31 +46,35 @@ function App() {
 
 
   return (
-    <>
-    <div>
-      <h1>Workout Tracker</h1>
-      {/* UI for log in form */}
-      <div>
-        <input
-          type='text'
-          placeholder='Username'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-
-        <input
-          type='password'
-          placeholder='Password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />      
-
-       <button onClick={handleLogin}>Log In</button>
-
-      </div>
-    </div>
-    <Register/>
-    </>
+    <Router>
+      <>
+        <div>
+          <h1>Workout Tracker</h1>
+          <div>
+            <input
+              type='text'
+              placeholder='Username'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              type='password'
+              placeholder='Password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button onClick={handleLogin}>Log In</button>
+            <p>Not a user? Click below</p>
+            <Link to="/register">Register</Link>
+          </div>
+        </div>
+        <Routes>
+        <Route path="/" element={<div>Home Page</div>} />
+          <Route path="/users" element={<div>Users Page</div>} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </>
+    </Router>
   );
 }
 

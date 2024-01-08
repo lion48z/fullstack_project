@@ -35,7 +35,7 @@ try {
 
   return (
     <div>
-    <form onSubmit={onSubmit}>
+   
       <input
         type="text"
         placeholder="Username"        
@@ -57,8 +57,8 @@ try {
         onChange={onChange}
       />
       <br />
-      <button type="submit">Register</button>
-    </form>
+      <button type="submit" onClick={onSubmit}>Register</button>
+    
   </div>
   )
 }
