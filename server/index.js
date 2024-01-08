@@ -1,9 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+
 const { Pool } = require('pg'); // Pool package from pg postgres package
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-require('dotenv').config();
+
 
 //initialize express app
 const app = express();
@@ -11,7 +13,7 @@ const app = express();
 app.use(cors()); // middleware for allowing cross origin resource sharing 
 app.use(express.json()); // built in middleware for parsing json sent in requests 
  // use Pool from pg package to create database connection
- 
+
  const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
@@ -83,14 +85,15 @@ app.get('/dashboard', authenticateToken, async (req, res) => {
  //post request handler for registration
 app.post('/register', async (req, res) => {
     //extracting the username and password from the body using destructuring
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
     //store password with bcrypt
     const hashedPassword = await bcrypt.hash(password, 10);
   
     //insert the new user into the users table 
     try{
   //query database to insert into the users table
-      await pool.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, hashedPassword]);
+  console.log('Received request for registration', req.body)
+      await pool.query('INSERT INTO users (username, email  password) VALUES ($1, $2)', [username, email, hashedPassword]);
       res.status(201).send('User registered successfully');
     } catch (error) {
       res.status(500).send(error.message);

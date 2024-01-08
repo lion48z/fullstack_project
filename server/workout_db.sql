@@ -50,5 +50,10 @@ ADD COLUMN total_distance_accumulated DECIMAL(10,2) DEFAULT 0;
 
 ALTER TABLE bike
 ADD COLUMN total_distance_accumulated DECIMAL(10,2) DEFAULT 0;
+UPDATE users SET email = 'lion48z@yahoo.com' WHERE user_id = 6;
+ALTER TABLE users
+ALTER COLUMN email TYPE VARCHAR(100);
+UPDATE users SET email = 'lion48z@yahoo.com' WHERE username = lion48z;
+UPDATE users SET email = 'redlion48z@gmail.com' WHERE user_id = 7;
 
 
