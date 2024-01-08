@@ -19,7 +19,7 @@ app.use(express.json()); // built in middleware for parsing json sent in request
     password: process.env.DB_PASSWORD,   
     port: 5432  
  });
- const authenticateToken = (req, res, next) => {
+const authenticateToken = (req, res, next) => {
   //get the token from the authorization header
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -99,7 +99,7 @@ app.post('/register', async (req, res) => {
   })
   //post request handler for login
   
-  app.post('/login', async (req, res) => {
+ app.post('/login', async (req, res) => {
     const {username, password} = req.body
     try {
       //check if user exists 

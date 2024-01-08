@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Register from './Register';
 import axios from 'axios';
 
 
@@ -44,8 +45,9 @@ function App() {
 
 
   return (
+    <>
     <div>
-      <h1>Basic Full Stack - Last Name DB Search</h1>
+      <h1>Workout Tracker</h1>
       {/* UI for log in form */}
       <div>
         <input
@@ -66,6 +68,8 @@ function App() {
 
       </div>
     </div>
+    <Register/>
+    </>
   );
 }
 
