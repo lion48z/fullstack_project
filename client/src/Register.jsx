@@ -29,8 +29,14 @@ try {
   
   const result = await axios.post('http://localhost:3001/register', newUser, config);
   console.log(result.data);
+  setFormData({
+    username:"",
+    email:"",
+    password:"",
+
+  })
 } catch (error) {
- 
+ console.log(error.response.message)
   alert('Registration failed', error.response.data)
 }
 };

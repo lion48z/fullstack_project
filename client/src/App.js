@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link,  Navigate } from 'react-router-dom';
+
 import  Register  from './Register';
 import axios from 'axios';
+import Dashboard from './Dashboard';
 
 
 
 function App() {
+ 
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState('');
   //create state variable to store auth token and logged in status
@@ -34,8 +37,10 @@ function App() {
 
         //extracting the token from the response and setting the token and isLoggedIn state variable
         const { token } = response.data;
-        setToken(token);
+        console.log(response.data)
+        setToken(token);          
         setIsLoggedIn(true);
+       
       } else {
         alert("Login failed!");
       }
@@ -72,6 +77,12 @@ function App() {
         <Route path="/" element={<div>Home Page</div>} />
           <Route path="/users" element={<div>Users Page</div>} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={setIsLoggedIn} />
+          <Route
+            path="/dashboard"
+            element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />}
+          />
+
         </Routes>
       </>
     </Router>

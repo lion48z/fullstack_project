@@ -93,7 +93,7 @@ app.post('/register', async (req, res) => {
     try{
   //query database to insert into the users table
   console.log('Received request for registration', req.body)
-      await pool.query('INSERT INTO users (username, email  password) VALUES ($1, $2)', [username, email, hashedPassword]);
+      await pool.query('INSERT INTO users (username, email, password) VALUES ($1, $2, $3)', [username, email, hashedPassword]);
       res.status(201).send('User registered successfully');
     } catch (error) {
       res.status(500).send(error.message);
@@ -114,6 +114,7 @@ app.post('/register', async (req, res) => {
         const isValid = await bcrypt.compare(password, rows[0].password); // store the boolean result of bcrypt result in variable 
       if (isValid) {
         //if valid combo create jwt token
+        
         const token = jwt.sign(
           {username}, 
           process.env.JWT_SECRET,
