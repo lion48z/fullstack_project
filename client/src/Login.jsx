@@ -63,7 +63,7 @@ const Login = () => {
       />
       <button onClick={handleLogin}>Log In</button>
       <p>Not a user? Click below</p>
-        <Link to="/register">Register</Link>
+      <Link to="/register">Register</Link>
     </div>
   )
 }
