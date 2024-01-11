@@ -43,8 +43,10 @@ const authenticateToken = (req, res, next) => {
     next();
   })
 }
-app.get('/dashboard', authenticateToken, async (req, res) => {
-  const userId = req.user.id;
+app.route('/dashboard')
+  .all(authenticateToken)
+  .get(async (req, res) => {
+    const userId = req.user.id;
   try {
     // Fetch user's total distance accumulated and recent activities (runs, walks, and bikes)
 //UNION ALL operator to combine the results of multiple sets fo SELECT statements 
@@ -81,6 +83,36 @@ app.get('/dashboard', authenticateToken, async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+app.post('/dashboard', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  console.log('User ID:', req.user.id);
+  const { activity_type, date, distance, duration } = req.body;
+
+  try {
+    let result;
+
+    // Depending on the activity type, insert the data into the corresponding table
+    switch (activity_type) {
+      case 'run':
+        result = await pool.query('INSERT INTO run (user_id, date, distance, duration) VALUES ($1, $2, $3, $4) RETURNING *', [userId, date, distance, duration]);
+        break;
+      case 'walk':
+        result = await pool.query('INSERT INTO walk (user_id, date, distance, duration) VALUES ($1, $2, $3, $4) RETURNING *', [userId, date, distance, duration]);
+        break;
+      case 'bike':
+        result = await pool.query('INSERT INTO bike (user_id, date, distance, duration) VALUES ($1, $2, $3, $4) RETURNING *', [userId, date, distance, duration]);
+        break;
+      default:
+        return res.status(400).json({ error: 'Invalid activity type' });
+    }
+
+    res.json(result.rows[0]); // Return the inserted activity data
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error.message);
+  }
+});
+
 
  //post request handler for registration
 app.post('/register', async (req, res) => {

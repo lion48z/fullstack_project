@@ -55,5 +55,18 @@ ALTER TABLE users
 ALTER COLUMN email TYPE VARCHAR(100);
 UPDATE users SET email = 'lion48z@yahoo.com' WHERE username = lion48z;
 UPDATE users SET email = 'redlion48z@gmail.com' WHERE user_id = 7;
-
+UPDATE run
+SET user_id = CASE
+    WHEN run_id = 1 THEN 6 
+    WHEN run_id = 2 THEN 6  
+    WHEN run_id = 3 THEN 7  
+    
+    ELSE NULL  
+END;
+UPDATE walk 
+SET user_id = CASE
+    WHEN walk_id = 1 THEN 7
+      
+    ELSE NULL  
+END;
 
