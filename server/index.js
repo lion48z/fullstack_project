@@ -13,7 +13,6 @@ const app = express();
 app.use(cors()); // middleware for allowing cross origin resource sharing 
 app.use(express.json()); // built in middleware for parsing json sent in requests 
  // use Pool from pg package to create database connection
-
  const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
@@ -37,16 +36,68 @@ const authenticateToken = (req, res, next) => {
     if (err) {
       res.sendStatus(403);
     }
+    
     //store the user in a property called user in the request object 
     req.user = user;
     //proceed to the next middleware in the chain 
     next();
   })
 }
+ //post request handler for registration
+ app.post('/register', async (req, res) => {
+  //extracting the username and password from the body using destructuring
+  const { username, email, password } = req.body;
+  //store password with bcrypt
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  //insert the new user into the users table 
+  try{
+//query database to insert into the users table
+console.log('Received request for registration', req.body)
+    await pool.query('INSERT INTO users (username, email, password) VALUES ($1, $2, $3)', [username, email, hashedPassword]);
+    res.status(201).send('User registered successfully');
+  } catch (error) {
+    res.status(500).send(error.message);
+
+  }
+})
+//post request handler for login
+
+app.post('/login', async (req, res) => {
+  const {username, password} = req.body
+  try {
+    //check if user exists 
+    const { rows } = await pool.query('SELECT * FROM users WHERE username = $1', [username]) //get row with matching username if it exists 
+    if (rows.length > 0) {
+      //a user with username exists 
+      //check if password matches 
+      //create variable for waiting for bcrypt
+      const isValid = await bcrypt.compare(password, rows[0].password); // store the boolean result of bcrypt result in variable 
+    if (isValid) {
+      //if valid combo create jwt token
+      
+      const token = jwt.sign(
+        { userId: rows[0].id, username }, 
+        process.env.JWT_SECRET,
+        { expiresIn: '1h'}
+        );
+        res.json({ token });
+
+      } else {
+        res.status(403).send('Invalid password')
+      }
+    } else {
+      res.status(404).send('User not found');
+    }
+  }catch (error) {
+    res.status(500).send(error.message); //if anything in the post fails 
+  }
+});
 app.route('/dashboard')
   .all(authenticateToken)
   .get(async (req, res) => {
-    const userId = req.user.id;
+    const userId = req.user.userId;
+    console.log('User ID:', userId);
   try {
     // Fetch user's total distance accumulated and recent activities (runs, walks, and bikes)
 //UNION ALL operator to combine the results of multiple sets fo SELECT statements 
@@ -84,8 +135,8 @@ app.route('/dashboard')
   }
 });
 app.post('/dashboard', authenticateToken, async (req, res) => {
-  const userId = req.user.id;
-  console.log('User ID:', req.user.id);
+  const userId = req.user.userId;
+  console.log('User ID:', req.body.userId);
   const { activity_type, date, distance, duration } = req.body;
 
   try {
@@ -114,56 +165,7 @@ app.post('/dashboard', authenticateToken, async (req, res) => {
 });
 
 
- //post request handler for registration
-app.post('/register', async (req, res) => {
-    //extracting the username and password from the body using destructuring
-    const { username, email, password } = req.body;
-    //store password with bcrypt
-    const hashedPassword = await bcrypt.hash(password, 10);
-  
-    //insert the new user into the users table 
-    try{
-  //query database to insert into the users table
-  console.log('Received request for registration', req.body)
-      await pool.query('INSERT INTO users (username, email, password) VALUES ($1, $2, $3)', [username, email, hashedPassword]);
-      res.status(201).send('User registered successfully');
-    } catch (error) {
-      res.status(500).send(error.message);
-  
-    }
-  })
-  //post request handler for login
-  
- app.post('/login', async (req, res) => {
-    const {username, password} = req.body
-    try {
-      //check if user exists 
-      const { rows } = await pool.query('SELECT * FROM users WHERE username = $1', [username]) //get row with matching username if it exists 
-      if (rows.length > 0) {
-        //a user with username exists 
-        //check if password matches 
-        //create variable for waiting for bcrypt
-        const isValid = await bcrypt.compare(password, rows[0].password); // store the boolean result of bcrypt result in variable 
-      if (isValid) {
-        //if valid combo create jwt token
-        
-        const token = jwt.sign(
-          {username}, 
-          process.env.JWT_SECRET,
-          { expiresIn: '1h'}
-          );
-          res.json({ token });
-  
-        } else {
-          res.status(403).send('Invalid password')
-        }
-      } else {
-        res.status(404).send('User not found');
-      }
-    }catch (error) {
-      res.status(500).send(error.message); //if anything in the post fails 
-    }
-  });
+
 
 
 //start server at given port 
