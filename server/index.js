@@ -77,7 +77,7 @@ app.post('/login', async (req, res) => {
       //if valid combo create jwt token
       
       const token = jwt.sign(
-        { userId: rows[0].id, username }, 
+        {  userId: rows[0].id, username }, 
         process.env.JWT_SECRET,
         { expiresIn: '1h'}
         );
@@ -136,7 +136,7 @@ app.route('/dashboard')
 });
 app.post('/dashboard', authenticateToken, async (req, res) => {
   const userId = req.user.userId;
-  console.log('User ID:', req.body.userId);
+  console.log('User ID:', req.user.userId);
   const { activity_type, date, distance, duration } = req.body;
 
   try {

@@ -70,3 +70,5 @@ SET user_id = CASE
     ELSE NULL  
 END;
 
+INSERT INTO run (date, distance, duration, user_id) VALUES ('2024-01-7', 5.5, '01:30:00', 7);
+
