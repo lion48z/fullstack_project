@@ -55,11 +55,28 @@ ALTER TABLE users
 ALTER COLUMN email TYPE VARCHAR(100);
 UPDATE users SET email = 'lion48z@yahoo.com' WHERE username = lion48z;
 UPDATE users SET email = 'redlion48z@gmail.com' WHERE user_id = 7;
-UPDATE run
+UPDATE walk
 SET user_id = CASE
-    WHEN run_id = 1 THEN 6 
-    WHEN run_id = 2 THEN 6  
-    WHEN run_id = 3 THEN 7  
+    WHEN walk_id = 1 THEN 7 
+    WHEN walk_id = 2 THEN 6  
+    WHEN walk_id = 3 THEN 7 
+    WHEN walk_id = 4 THEN 6 
+    WHEN walk_id = 5 THEN 7 
+    WHEN walk_id = 6 THEN 6  
+    WHEN walk_id = 7 THEN 7  
+    WHEN walk_id = 8 THEN 7
+    WHEN walk_id = 9 THEN 7  
+    WHEN walk_id = 10 THEN 6 
+    WHEN walk_id = 11 THEN 6 
+    WHEN walk_id = 12 THEN 6  
+    WHEN walk_id = 13 THEN 7  
+    WHEN walk_id = 14 THEN 7
+    WHEN walk_id = 15 THEN 6 
+    WHEN walk_id = 16 THEN 6  
+    WHEN walk_id = 17 THEN 7  
+    WHEN walk_id = 18 THEN 7
+    WHEN walk_id = 19 THEN 7  
+    
     
     ELSE NULL  
 END;
@@ -69,6 +86,8 @@ SET user_id = CASE
       
     ELSE NULL  
 END;
-
+UPDATE run
+SET user_id = 6
+WHERE run_id = 5;
 INSERT INTO run (date, distance, duration, user_id) VALUES ('2024-01-7', 5.5, '01:30:00', 7);
 
