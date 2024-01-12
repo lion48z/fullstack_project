@@ -34,8 +34,10 @@ const authenticateToken = (req, res, next) => {
   }
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
+      console.error(err);
       res.sendStatus(403);
     }
+    console.log('Decoded Token:', user);
     
     //store the user in a property called user in the request object 
     req.user = user;
@@ -43,6 +45,7 @@ const authenticateToken = (req, res, next) => {
     next();
   })
 }
+
  //post request handler for registration
  app.post('/register', async (req, res) => {
   //extracting the username and password from the body using destructuring
@@ -67,7 +70,9 @@ app.post('/login', async (req, res) => {
   const {username, password} = req.body
   try {
     //check if user exists 
-    const { rows } = await pool.query('SELECT * FROM users WHERE username = $1', [username]) //get row with matching username if it exists 
+    const { rows } = await pool.query('SELECT * FROM users WHERE username = $1', [username]) 
+    //get row with matching username if it exists 
+    console.log('Rows from database:', rows);
     if (rows.length > 0) {
       //a user with username exists 
       //check if password matches 
@@ -75,9 +80,9 @@ app.post('/login', async (req, res) => {
       const isValid = await bcrypt.compare(password, rows[0].password); // store the boolean result of bcrypt result in variable 
     if (isValid) {
       //if valid combo create jwt token
-      
+      console.log('User ID from database:', rows[0].user_id);
       const token = jwt.sign(
-        {  userId: rows[0].id, username }, 
+        {  userId: rows[0].user_id, username }, 
         process.env.JWT_SECRET,
         { expiresIn: '1h'}
         );
@@ -96,7 +101,7 @@ app.post('/login', async (req, res) => {
 app.route('/dashboard')
   .all(authenticateToken)
   .get(async (req, res) => {
-    const userId = req.user.userId;
+    const userId = req.user.user_id
     console.log('User ID:', userId);
   try {
     // Fetch user's total distance accumulated and recent activities (runs, walks, and bikes)
@@ -135,14 +140,13 @@ app.route('/dashboard')
   }
 });
 app.post('/dashboard', authenticateToken, async (req, res) => {
-  const userId = req.user.userId;
-  console.log('User ID:', req.user.userId);
+  const userId = req.user.user_id;
+
   const { activity_type, date, distance, duration } = req.body;
 
   try {
     let result;
-
-    // Depending on the activity type, insert the data into the corresponding table
+    
     switch (activity_type) {
       case 'run':
         result = await pool.query('INSERT INTO run (user_id, date, distance, duration) VALUES ($1, $2, $3, $4) RETURNING *', [userId, date, distance, duration]);
