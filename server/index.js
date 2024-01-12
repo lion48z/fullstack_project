@@ -101,7 +101,7 @@ app.post('/login', async (req, res) => {
 app.route('/dashboard')
   .all(authenticateToken)
   .get(async (req, res) => {
-    const userId = req.user.user_id
+    const userId = req.user.userId
     console.log('User ID:', userId);
   try {
     // Fetch user's total distance accumulated and recent activities (runs, walks, and bikes)
@@ -140,8 +140,9 @@ app.route('/dashboard')
   }
 });
 app.post('/dashboard', authenticateToken, async (req, res) => {
-  const userId = req.user.user_id;
-
+  console.log('REq:',req, req.user)
+  const userId = req.user.userId;
+console.log('userId:', userId)
   const { activity_type, date, distance, duration } = req.body;
 
   try {
