@@ -12,7 +12,7 @@ const app = express();
 //set up middleware
 app.use(cors()); // middleware for allowing cross origin resource sharing 
 app.use(express.json()); // built in middleware for parsing json sent in requests 
- // use Pool from pg package to create database connection
+
  const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
@@ -98,17 +98,16 @@ app.post('/login', async (req, res) => {
     res.status(500).send(error.message); //if anything in the post fails 
   }
 });
-app.route('/dashboard')
-  .all(authenticateToken)
-  .get(async (req, res) => {
+
+app.get('/dashboard', authenticateToken, async (req, res) => {
     const userId = req.user.userId
-    console.log('User ID:', userId);
+    
   try {
     // Fetch user's total distance accumulated and recent activities (runs, walks, and bikes)
 //UNION ALL operator to combine the results of multiple sets fo SELECT statements 
 //COALESCE function returns first non-null expression used to handle cases where no data for 
 //particular activity `COALESCE(SUM(distance),0) ensures if no records it will show 0
-    const result = await pool.query(
+  const result = await pool.query(
       'SELECT activity_type, activity_id, date, distance, duration, user_id, total_distance_accumulated ' +
       'FROM (' +
         'SELECT ' +
@@ -127,9 +126,9 @@ app.route('/dashboard')
           "'bike' AS activity_type, bike_id AS activity_id, date, distance, duration, user_id " +
           'COALESCE((SELECT COALESCE(SUM(distance), 0) FROM bike WHERE user_id = $1), 0) AS total_distance_accumulated ' +
         'FROM bike ' +
-        'WHERE user_id = $1 ' +    //user's id 
+        'WHERE user_id = $1 ' +   
       ') AS all_activities ' +
-      'ORDER BY date DESC',       //most recent activity
+      'ORDER BY date DESC',       
       [userId]
     );
     const dashboardData = result.rows;
