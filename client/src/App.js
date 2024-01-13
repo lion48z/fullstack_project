@@ -10,7 +10,15 @@ import Login from './Login';
 function App() {   
   const [token, setToken] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  //const navigate = useNavigate();
+  const [dashboardData, setDashboardData] = useState([]);
+  
+  useEffect( async () =>{
+    try{
+      const result = await axios.get('http://localhost:3001/dashboard')
+    }catch (error) {
+
+    }
+  })
 
   useEffect(() => {
     console.log("client token: ", token);
