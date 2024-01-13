@@ -17,11 +17,13 @@ const Login = () => {
       }, {
         headers: {
           'Content-Type': 'application/json',
+          
         },
       });
 
       if (response.status === 200) {
-        const { token } = response.data;
+        const { token } = response.data
+        console.log(token);
         setToken(token);
         setIsLoggedIn(true);
         navigate('/dashboard');

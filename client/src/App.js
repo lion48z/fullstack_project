@@ -12,30 +12,39 @@ function App() {
 
   useEffect(() => {
     console.log('client token: ', token);
+   
   }, [token]);
 
   const getDashboard = async () => {
-    
     try {
-      const response = await axios.get('http://localhost:3001/dashboard',{
-        token
-       
-      }
-      );
-      if (response.status === 200) {
-        console.log('Dashboard Data:', response.data);
-        setDashboardData(response.data);
+      if (isLoggedIn) {
+        const response = await axios.get('http://localhost:3001/dashboard', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log('Full API Response:', response.rows);
+        if (response.status === 200) {
+          
+          console.log('Dashboard Data:', response.data);
+          setDashboardData(response.data);
+        }
+      } else {
+        // Handle the case when the user is not logged in
+        console.log('User is not logged in');
       }
     } catch (error) {
       alert('Error retrieving dashboard data', error);
     }
   };
+ console.log(getDashboard()); 
 
   const handleLoginSuccess = (token) => {
     setToken(token);
     setIsLoggedIn(true);
-    getDashboard(); 
-  };
+    
+    getDashboard();
+  }
 
   return (
     <Router>

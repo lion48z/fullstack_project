@@ -2,10 +2,12 @@ import React from 'react';
 import { Grid, Paper, Typography } from '@mui/material';
 
 const Dashboard = ({ dashboardData }) => {
-  if (!dashboardData || !dashboardData.activities) {
-    // If dashboardData or activities is undefined, you can return a loading state or an empty component.
+  console.log("DASH", dashboardData)
+  if (!dashboardData || Object.keys(dashboardData).length === 0) {
+    // If dashboardData is not available or empty, render a loading message or alternative component
     return <div>Loading...</div>;
   }
+ 
 
   const { activities, totalRunDistance, totalWalkDistance, totalBikeDistance } = dashboardData;
 
