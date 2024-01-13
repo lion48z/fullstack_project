@@ -99,45 +99,48 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Function to get total distance accumulated for a specific activity type with the user's id 
+//coalesce is function to return frist non-null expression among its arguments
+const getTotalDistance = async (activityType, userId) => {
+  const result = await pool.query(`SELECT COALESCE(SUM(distance), 0) FROM ${activityType} WHERE user_id = $1`, [userId]);
+  return result.rows[0].coalesce;
+};
+
 app.get('/dashboard', authenticateToken, async (req, res) => {
-    const userId = req.user.userId
-    
+  const userId = req.user.userId;
+
   try {
     // Fetch user's total distance accumulated and recent activities (runs, walks, and bikes)
-//UNION ALL operator to combine the results of multiple sets fo SELECT statements 
-//COALESCE function returns first non-null expression used to handle cases where no data for 
-//particular activity `COALESCE(SUM(distance),0) ensures if no records it will show 0
-  const result = await pool.query(
-      'SELECT activity_type, activity_id, date, distance, duration, user_id, total_distance_accumulated ' +
-      'FROM (' +
-        'SELECT ' +
-          "'run' AS activity_type, run_id AS activity_id, date, distance, duration, user_id " +
-          'COALESCE((SELECT COALESCE(SUM(distance), 0) FROM run WHERE user_id = $1), 0) AS total_distance_accumulated ' +
-        'FROM run ' +
-        'WHERE user_id = $1 ' +
-      'UNION ALL ' +
-        'SELECT ' +
-          "'walk' AS activity_type, walk_id AS activity_id, date, distance, duration, user_id " +
-          'COALESCE((SELECT COALESCE(SUM(distance), 0) FROM walk WHERE user_id = $1), 0) AS total_distance_accumulated ' +
-        'FROM walk ' +
-        'WHERE user_id = $1 ' +
-      'UNION ALL ' +
-        'SELECT ' +
-          "'bike' AS activity_type, bike_id AS activity_id, date, distance, duration, user_id " +
-          'COALESCE((SELECT COALESCE(SUM(distance), 0) FROM bike WHERE user_id = $1), 0) AS total_distance_accumulated ' +
-        'FROM bike ' +
-        'WHERE user_id = $1 ' +   
-      ') AS all_activities ' +
-      'ORDER BY date DESC',       
-      [userId]
-    );
-    const dashboardData = result.rows;
+    const runData = await pool.query('SELECT run_id AS activity_id, date, distance, duration FROM run WHERE user_id = $1 ORDER BY date DESC LIMIT 5', [userId]);
+    const walkData = await pool.query('SELECT walk_id AS activity_id, date, distance, duration FROM walk WHERE user_id = $1 ORDER BY date DESC LIMIT 5', [userId]);
+    const bikeData = await pool.query('SELECT bike_id AS activity_id, date, distance, duration FROM bike WHERE user_id = $1 ORDER BY date DESC LIMIT 5', [userId]);
+//calls total distance for each activity 
+    const totalRunDistance = await getTotalDistance('run', userId);
+    const totalWalkDistance = await getTotalDistance('walk', userId);
+    const totalBikeDistance = await getTotalDistance('bike', userId);
+//create dashboard object , combines latest activity with the total distance for each activity type
+const combinedData = [
+  ...runData.rows.map(activity => ({ ...activity, activity_type: 'run' })),
+  ...walkData.rows.map(activity => ({ ...activity, activity_type: 'walk' })),
+  ...bikeData.rows.map(activity => ({ ...activity, activity_type: 'bike' })),
+];
+
+const sortedData = combinedData.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+
+const dashboardData = {
+  activities: sortedData,
+  totalRunDistance,
+  totalWalkDistance,
+  totalBikeDistance,
+};
+
     res.json(dashboardData);
   } catch (error) {
     console.error(error);
     res.status(500).send(error.message);
   }
 });
+
 app.post('/dashboard', authenticateToken, async (req, res) => {
   console.log('REq:',req, req.user)
   const userId = req.user.userId;
