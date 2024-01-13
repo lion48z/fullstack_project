@@ -110,7 +110,7 @@ app.get('/dashboard', authenticateToken, async (req, res) => {
   const userId = req.user.userId;
 
   try {
-    // Fetch user's total distance accumulated and recent activities (runs, walks, and bikes)
+    // Fetch user's total distance accumulated and recent activities (runs, walks, and bikes) limit to most recent 5 
     const runData = await pool.query('SELECT run_id AS activity_id, date, distance, duration FROM run WHERE user_id = $1 ORDER BY date DESC LIMIT 5', [userId]);
     const walkData = await pool.query('SELECT walk_id AS activity_id, date, distance, duration FROM walk WHERE user_id = $1 ORDER BY date DESC LIMIT 5', [userId]);
     const bikeData = await pool.query('SELECT bike_id AS activity_id, date, distance, duration FROM bike WHERE user_id = $1 ORDER BY date DESC LIMIT 5', [userId]);
@@ -119,14 +119,16 @@ app.get('/dashboard', authenticateToken, async (req, res) => {
     const totalWalkDistance = await getTotalDistance('walk', userId);
     const totalBikeDistance = await getTotalDistance('bike', userId);
 //create dashboard object , combines latest activity with the total distance for each activity type
+//maps through each activity 
 const combinedData = [
   ...runData.rows.map(activity => ({ ...activity, activity_type: 'run' })),
   ...walkData.rows.map(activity => ({ ...activity, activity_type: 'walk' })),
   ...bikeData.rows.map(activity => ({ ...activity, activity_type: 'bike' })),
 ];
-
+// Sort the combinedData array in descending order based on the 'date' property,
+// then take the first 5 items to get the most recent 5 activities.
 const sortedData = combinedData.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
-
+//display total distance with as dashboardData using sortedDatat and total Distance for each activity
 const dashboardData = {
   activities: sortedData,
   totalRunDistance,
@@ -173,8 +175,6 @@ console.log('userId:', userId)
 
 
 
-
-
 //start server at given port 
 const PORT = process.env.PORT || 3001; // use value in .env or use 3001 
 app.listen(PORT, () => {
@@ -183,19 +183,3 @@ app.listen(PORT, () => {
 
 
 
-/*may add in functionality for users to search for other users and see their stats using similar language to this 
-//only want users to be able to search if they are authenticated
-//get request handler for search passes authenticateToken passess 
-app.get('/search', authenticateToken, async (req,res) =>{
-   try {
-    const searchQuery = req.query.q.toLowerCase(); //eg search?q=smith
-    const { rows } = await pool.query('SELECT * FROM users WHERE LOWER(last_name) = $1', [`${searchQuery}`])
-    //const { rows } = await pool.query('SELECT * FROM users WHERE last_name SQL query = $1 position in array', [`smith`])
-    //const { rows } = await pool.query('SELECT * FROM users WHERE last_name = 'smith') //see above change for lower case 
-    res.json(rows);
-
-   } catch (error) {
-    console.error(error);
-    res.status(500).send(error);
-   }
-} )*/
