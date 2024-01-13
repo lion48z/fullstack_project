@@ -2,6 +2,11 @@ import React from 'react';
 import { Grid, Paper, Typography } from '@mui/material';
 
 const Dashboard = ({ dashboardData }) => {
+  if (!dashboardData || !dashboardData.activities) {
+    // If dashboardData or activities is undefined, you can return a loading state or an empty component.
+    return <div>Loading...</div>;
+  }
+
   const { activities, totalRunDistance, totalWalkDistance, totalBikeDistance } = dashboardData;
 
   return (
@@ -35,9 +40,9 @@ const Dashboard = ({ dashboardData }) => {
         <Grid key={activity.activity_id} item xs={12} md={4}>
           <Paper>
             <Typography variant="h6">{activity.activity_type}</Typography>
-            <Typography>Date: {activity.date}</Typography>
+            <Typography>Date: {new Date(activity.date).toLocaleDateString()}</Typography>
             <Typography>Distance: {activity.distance} miles</Typography>
-            <Typography>Duration: {activity.duration} minutes</Typography>
+            <Typography>Duration: {activity.duration}</Typography>
           </Paper>
         </Grid>
       ))}
@@ -46,4 +51,5 @@ const Dashboard = ({ dashboardData }) => {
 };
 
 export default Dashboard;
+
 

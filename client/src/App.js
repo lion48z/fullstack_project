@@ -1,34 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link,  } from 'react-router-dom';
-import  Register  from './Register';
-//import axios from 'axios';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import axios from 'axios';
 import Dashboard from './Dashboard';
 import Login from './Login';
+import Register from './Register';
 
-
-
-function App() {   
+function App() {
   const [token, setToken] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [dashboardData, setDashboardData] = useState([]);
-  
-  useEffect( async () =>{
-    try{
-      const result = await axios.get('http://localhost:3001/dashboard')
-    }catch (error) {
-
-    }
-  })
 
   useEffect(() => {
-    console.log("client token: ", token);
-  }, [token]);  
-  
+    console.log('client token: ', token);
+  }, [token]);
+
+  const getDashboard = async () => {
+    
+    try {
+      const response = await axios.get('http://localhost:3001/dashboard',{
+        token
+       
+      }
+      );
+      if (response.status === 200) {
+        console.log('Dashboard Data:', response.data);
+        setDashboardData(response.data);
+      }
+    } catch (error) {
+      alert('Error retrieving dashboard data', error);
+    }
+  };
 
   const handleLoginSuccess = (token) => {
     setToken(token);
     setIsLoggedIn(true);
-  }
+    getDashboard(); 
+  };
+
   return (
     <Router>
       <>
@@ -40,14 +48,16 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<div>Home Page</div>} />
-          <Route path="/users" element={<div>Users Page</div>} />
           <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={<Dashboard dashboardData={dashboardData} />}
+          />
         </Routes>
       </>
     </Router>
   );
-  
 }
 
 export default App;
+
