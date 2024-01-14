@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -8,6 +8,10 @@ const Login = () => {
   const [token, setToken] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+  useEffect(() => {
+    console.log('client token: ', token);
+   
+  }, [token]);
 
   const handleLogin = async () => {
     try {

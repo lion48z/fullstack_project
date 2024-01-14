@@ -10,10 +10,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [dashboardData, setDashboardData] = useState([]);
 
-  useEffect(() => {
-    console.log('client token: ', token);
-   
-  }, [token]);
+
 
   const getDashboard = async () => {
     try {
