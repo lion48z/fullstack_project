@@ -12,6 +12,7 @@ const Login = () => {
     console.log('client token: ', token);
    
   }, [token]);
+  
 
   const handleLogin = async () => {
     try {
@@ -28,11 +29,12 @@ const Login = () => {
       if (response.status === 200) {
         const { token } = response.data
         console.log(token);
+        localStorage.setItem('authToken', token);
         setToken(token);
-        setIsLoggedIn(true);
-        navigate('/dashboard');
+        setIsLoggedIn(true);       
         setUsername('');
         setPassword('');
+        navigate('/dashboard');
       } else {
         alert('Login failed!');
       }
@@ -40,6 +42,22 @@ const Login = () => {
       alert('An error occurred while logging in.');
     }
   }
+  useEffect(() => {
+    const fetchToken = async () => {
+      // Retrieve the token from local storage
+      const storedToken = localStorage.getItem('authToken');
+    
+      if (storedToken) {
+        // Set the token in the component state or global state management
+        setToken(storedToken);
+      } else {
+        // Handle the case when the user is not logged in
+        console.log('User is not logged in');
+      }
+    };
+  
+    fetchToken();
+  }, []);
 
      
     return (
