@@ -14,6 +14,7 @@ const Login = ({ onLoginSuccess }) => {
         password,
       }, {
         headers: {
+          
           'Content-Type': 'application/json',
         },
       });

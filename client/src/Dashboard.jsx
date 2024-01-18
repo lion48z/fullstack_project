@@ -14,7 +14,7 @@ const Dashboard = () => {
   });
   useEffect(() => {
     // Retrieve the token from local storage
-    const storedToken = localStorage.getItem('authToken');
+    const storedToken = localStorage.getItem('authToken', token);
 
     if (storedToken) {
       setToken(storedToken);

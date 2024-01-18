@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Login from './Login';
 import Register from './Register';
@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     const fetchToken = async () => {
-      const storedToken = localStorage.getItem('authToken');
+      const storedToken = localStorage.getItem('authToken',token);
   
       if (storedToken) {
         console.log('Token retrieved:', storedToken);
@@ -31,7 +31,11 @@ function App() {
     localStorage.setItem('authToken', newToken);
   };
 
-
+  const handleLogout = () => {
+    setToken('');
+    setIsLoggedIn(false);
+    localStorage.removeItem('authToken');
+  };
 
   return (
     <Router>
@@ -39,18 +43,20 @@ function App() {
         <div>
           <h1>Workout Tracker</h1>
           {isLoggedIn ? (
-            <h2>Welcome back to your dashboard!</h2>
+            <>
+              <h2>Welcome back to your dashboard!</h2>
+              <button onClick={handleLogout}>Logout</button>
+              {/* You can use the Link component for navigation */}
+              <Link to="/dashboard">Dashboard</Link>
+            </>
           ) : (
             <Login onLoginSuccess={handleLoginSuccess} />
           )}
-                  <Routes>
-          <Route path="/" element={<div>Home Page</div>} />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/dashboard"
-            element={<Dashboard  />}
-          />
-        </Routes>
+          <Routes>
+            <Route path="/" element={<div>Home Page</div>} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
         </div>
       </>
     </Router>
@@ -58,6 +64,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
