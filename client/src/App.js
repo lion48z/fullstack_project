@@ -22,9 +22,9 @@ function App() {
       <>
         <div>
           <h1>Workout Tracker</h1>
-          {!isLoggedIn ? (
+         
             <Login onLoginSuccess={handleLoginSuccess} />
-          ) : null}
+          
         </div>
         <Routes>
           <Route path="/" element={<div>Home Page</div>} />

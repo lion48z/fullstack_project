@@ -61,21 +61,27 @@ const Login = () => {
 
      
     return (
-    <div>
-        <input
-        type='text'
-        placeholder='Username'
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type='password'
-        placeholder='Password'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleLogin}>Log In</button>
-      {isLoggedIn ? null : <p>Not a user? Click below <Link to="/register">Register</Link></p>}
+      <div>
+      {isLoggedIn ? (
+        <p>Welcome back to your dashboard!</p>
+      ) : (
+        <>
+          <input
+            type='text'
+            placeholder='Username'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type='password'
+            placeholder='Password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button onClick={handleLogin}>Log In</button>
+          <p>Not a user? Click below <Link to="/register">Register</Link></p>
+        </>
+      )}
     </div>
   )
 }
