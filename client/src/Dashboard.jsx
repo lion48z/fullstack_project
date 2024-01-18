@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import  DashboardForm  from './DashboardForm';
-import { Grid, Paper, Typography } from '@mui/material';
+//import { Grid, Paper, Typography } from '@mui/material';
 
 const Dashboard = () => {
   const [token, setToken] = useState('');
@@ -52,7 +52,12 @@ const Dashboard = () => {
         console.log('User is not logged in');
       }
     } catch (error) {
-      alert('Error retrieving dashboard data', error);
+      if (error.response && error.response.status === 403) {
+        // Token may be expired, try refreshing or obtaining a new token
+        console.log('Token may be expired, try refreshing or obtaining a new token');
+      } else {
+        alert('Error retrieving dashboard data', error);
+      }
     }
   };
   const { activities, totalRunDistance, totalWalkDistance, totalBikeDistance } = dashboardData;
@@ -67,49 +72,35 @@ const Dashboard = () => {
 
 
   return (
-    <>
     <div>
-      <DashboardForm />
+    <DashboardForm />
+
+    <div className="dashboard-grid">
+      <div className="dashboard-item">
+        <h3>Total Run Distance</h3>
+        <p>{totalRunDistance} miles</p>
+      </div>
+
+      <div className="dashboard-item">
+        <h3>Total Walk Distance</h3>
+        <p>{totalWalkDistance} miles</p>
+      </div>
+
+      <div className="dashboard-item">
+        <h3>Total Bike Distance</h3>
+        <p>{totalBikeDistance} miles</p>
+      </div>
+
+      {activities.map((activity) => (
+        <div key={activity.activity_id} className="dashboard-item">
+          <h3>{activity.activity_type}</h3>
+          <p>Date: {new Date(activity.date).toLocaleDateString()}</p>
+          <p>Distance: {activity.distance} miles</p>
+          <p>Duration: {activity.duration}</p>
+        </div>
+      ))}
     </div>
-    <Grid container spacing={3}>
-  
-    {/* Display Total Run Distance */}
-    <Grid item xs={12} md={4}>
-      <Paper>
-        <Typography variant="h6">Total Run Distance</Typography>
-        <Typography>{totalRunDistance} miles</Typography>
-      </Paper>
-    </Grid>
-
-    {/* Display Total Walk Distance */}
-    <Grid item xs={12} md={4}>
-      <Paper>
-        <Typography variant="h6">Total Walk Distance</Typography>
-        <Typography>{totalWalkDistance} miles</Typography>
-      </Paper>
-    </Grid>
-
-    {/* Display Total Bike Distance */}
-    <Grid item xs={12} md={4}>
-      <Paper>
-        <Typography variant="h6">Total Bike Distance</Typography>
-        <Typography>{totalBikeDistance} miles</Typography>
-      </Paper>
-    </Grid>
-
-    {/* Display Recent Activities */}
-    {activities?.map((activity) => (
-      <Grid key={activity.activity_id} item xs={12} md={4}>
-        <Paper>
-          <Typography variant="h6">{activity.activity_type}</Typography>
-          <Typography>Date: {new Date(activity.date).toLocaleDateString()}</Typography>
-          <Typography>Distance: {activity.distance} miles</Typography>
-          <Typography>Duration: {activity.duration}</Typography>
-        </Paper>
-      </Grid>
-    ))}
-  </Grid>
-  </>
+  </div>
   );
 };
 
