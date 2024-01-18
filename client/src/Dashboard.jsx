@@ -14,7 +14,7 @@ const Dashboard = () => {
   });
   useEffect(() => {
     // Retrieve the token from local storage
-    const storedToken = localStorage.getItem('authToken', token);
+    const storedToken = localStorage.getItem('authToken');
 
     if (storedToken) {
       setToken(storedToken);
@@ -26,6 +26,12 @@ const Dashboard = () => {
       console.log('User is not logged in');
     }
   }, []);
+  useEffect(() => {
+    // Fetch dashboard data whenever token or isLoggedIn changes
+    if (token && isLoggedIn) {
+      getDashboard();
+    }
+  }, [token, isLoggedIn]);
   const getDashboard = async () => {
    
     try {
@@ -50,10 +56,11 @@ const Dashboard = () => {
     }
   };
   const { activities, totalRunDistance, totalWalkDistance, totalBikeDistance } = dashboardData;
-  useEffect(() => {
-   
-    getDashboard();
-  }, [token, isLoggedIn]); 
+
+  if (!isLoggedIn) {
+    return <div>User is not logged in.</div>; // Handle the case when the user is not logged in
+  }
+
   if (!activities || activities.length === 0) {
     return <div>Loading...</div>; // or render a loading state or an error message
   }
@@ -61,45 +68,46 @@ const Dashboard = () => {
 
   return (
     <>
-    <DashboardForm />
     <Grid container spacing={3}>
-      {/* Display Total Run Distance */}
-      <Grid item xs={12} md={4}>
-        <Paper>
-          <Typography variant="h6">Total Run Distance</Typography>
-          <Typography>{totalRunDistance} miles</Typography>
-        </Paper>
-      </Grid>
+     
 
-      {/* Display Total Walk Distance */}
-      <Grid item xs={12} md={4}>
-        <Paper>
-          <Typography variant="h6">Total Walk Distance</Typography>
-          <Typography>{totalWalkDistance} miles</Typography>
-        </Paper>
-      </Grid>
-
-      {/* Display Total Bike Distance */}
-      <Grid item xs={12} md={4}>
-        <Paper>
-          <Typography variant="h6">Total Bike Distance</Typography>
-          <Typography>{totalBikeDistance} miles</Typography>
-        </Paper>
-      </Grid>
-
-      {/* Display Recent Activities */}
-      {activities?.map((activity) => (
-        <Grid key={activity.activity_id} item xs={12} md={4}>
-          <Paper>
-            <Typography variant="h6">{activity.activity_type}</Typography>
-            <Typography>Date: {new Date(activity.date).toLocaleDateString()}</Typography>
-            <Typography>Distance: {activity.distance} miles</Typography>
-            <Typography>Duration: {activity.duration}</Typography>
-          </Paper>
-        </Grid>
-      ))}
+    {/* Display Total Run Distance */}
+    <Grid item xs={12} md={4}>
+      <Paper>
+        <Typography variant="h6">Total Run Distance</Typography>
+        <Typography>{totalRunDistance} miles</Typography>
+      </Paper>
     </Grid>
-    </>
+
+    {/* Display Total Walk Distance */}
+    <Grid item xs={12} md={4}>
+      <Paper>
+        <Typography variant="h6">Total Walk Distance</Typography>
+        <Typography>{totalWalkDistance} miles</Typography>
+      </Paper>
+    </Grid>
+
+    {/* Display Total Bike Distance */}
+    <Grid item xs={12} md={4}>
+      <Paper>
+        <Typography variant="h6">Total Bike Distance</Typography>
+        <Typography>{totalBikeDistance} miles</Typography>
+      </Paper>
+    </Grid>
+
+    {/* Display Recent Activities */}
+    {activities?.map((activity) => (
+      <Grid key={activity.activity_id} item xs={12} md={4}>
+        <Paper>
+          <Typography variant="h6">{activity.activity_type}</Typography>
+          <Typography>Date: {new Date(activity.date).toLocaleDateString()}</Typography>
+          <Typography>Distance: {activity.distance} miles</Typography>
+          <Typography>Duration: {activity.duration}</Typography>
+        </Paper>
+      </Grid>
+    ))}
+  </Grid>
+  </>
   );
 };
 
