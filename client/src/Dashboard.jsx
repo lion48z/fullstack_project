@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import DashboardForm from './DashboardForm';
+import  DashboardForm  from './DashboardForm';
 import { Grid, Paper, Typography } from '@mui/material';
 
 const Dashboard = () => {
@@ -68,9 +68,11 @@ const Dashboard = () => {
 
   return (
     <>
+    <div>
+      <DashboardForm />
+    </div>
     <Grid container spacing={3}>
-     
-
+  
     {/* Display Total Run Distance */}
     <Grid item xs={12} md={4}>
       <Paper>
