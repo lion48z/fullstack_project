@@ -31,13 +31,7 @@ function App() {
     localStorage.setItem('authToken', newToken);
   };
 
-  const PrivateRoute = ({ element, ...rest }) => {
-    return isLoggedIn ? (
-      <Route {...rest} element={element} />
-    ) : (
-      <Navigate to="/login" replace />
-    );
-  };
+
 
   return (
     <Router>
@@ -49,13 +43,14 @@ function App() {
           ) : (
             <Login onLoginSuccess={handleLoginSuccess} />
           )}
-           <React.Fragment>
-            <Routes>
-              <Route path="/" element={<div>Home Page</div>} />
-              <Route path="/register" element={<Register />} />
-              <PrivateRoute path="/dashboard" element={<Dashboard />} />
-            </Routes>
-          </React.Fragment>
+                  <Routes>
+          <Route path="/" element={<div>Home Page</div>} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/dashboard"
+            element={<Dashboard  />}
+          />
+        </Routes>
         </div>
       </>
     </Router>
