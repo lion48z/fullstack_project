@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import  DashboardForm  from './DashboardForm';
+import DashboardForm from './DashboardForm';
 //import { Grid, Paper, Typography } from '@mui/material';
 
 const Dashboard = () => {
@@ -14,7 +14,7 @@ const Dashboard = () => {
   });
   useEffect(() => {
     // Retrieve the token from local storage
-    const storedToken = localStorage.getItem('authToken', token);
+    const storedToken = localStorage.getItem('authToken');
 
     if (storedToken) {
       setToken(storedToken);
@@ -26,12 +26,6 @@ const Dashboard = () => {
       console.log('User is not logged in');
     }
   }, []);
-  useEffect(() => {
-    // Fetch dashboard data whenever token or isLoggedIn changes
-    if (token && isLoggedIn) {
-      getDashboard();
-    }
-  }, [token, isLoggedIn]);
   const getDashboard = async () => {
    
     try {
@@ -52,20 +46,11 @@ const Dashboard = () => {
         console.log('User is not logged in');
       }
     } catch (error) {
-      if (error.response && error.response.status === 403) {
-        // Token may be expired, try refreshing or obtaining a new token
-        console.log('Token may be expired, try refreshing or obtaining a new token');
-      } else {
-        alert('Error retrieving dashboard data', error);
-      }
+      alert('Error retrieving dashboard data', error);
     }
   };
   const { activities, totalRunDistance, totalWalkDistance, totalBikeDistance } = dashboardData;
-
-  if (!isLoggedIn) {
-    return <div>User is not logged in.</div>; // Handle the case when the user is not logged in
-  }
-
+ 
   if (!activities || activities.length === 0) {
     return <div>Loading...</div>; // or render a loading state or an error message
   }
@@ -73,7 +58,7 @@ const Dashboard = () => {
 
   return (
     <div>
-    <DashboardForm token={token} />
+    <DashboardForm  />
 
     <div className="dashboard-grid">
       <div className="dashboard-item">
