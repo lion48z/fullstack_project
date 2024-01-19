@@ -147,12 +147,12 @@ app.post('/dashboard', authenticateToken, async (req, res) => {
   console.log('REq:',req, req.user)
   const userId = req.user.userId;
 console.log('userId:', userId)
-  const { activity_type, date, distance, duration } = req.body;
+  const { activityType, date, distance, duration } = req.body;
 
   try {
     let result;
     
-    switch (activity_type) {
+    switch (activityType) {
       case 'run':
         result = await pool.query('INSERT INTO run (user_id, date, distance, duration) VALUES ($1, $2, $3, $4) RETURNING *', [userId, date, distance, duration]);
         break;

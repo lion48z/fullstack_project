@@ -12,7 +12,6 @@ const Login = () => {
     console.log('client token: ', token);
    
   }, [token]);
-  
 
   const handleLogin = async () => {
     try {
@@ -25,6 +24,8 @@ const Login = () => {
           
         },
       });
+    
+      
 
       if (response.status === 200) {
         const { token } = response.data

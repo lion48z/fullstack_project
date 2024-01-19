@@ -59,7 +59,7 @@ const Dashboard = () => {
 
   return (
     <div>
-   <DashboardForm  />
+   <DashboardForm token={token}  />
 
     <div className="dashboard-grid">
       <div className="dashboard-item">

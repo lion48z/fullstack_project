@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const DashboardForm = () => {
+const DashboardForm = ({token}) => {
   const [formData, setFormData] = useState({
     activityType: '',
     date: '',
@@ -18,7 +18,11 @@ const DashboardForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3001/dashboard', formData);
+      const response = await axios.post('http://localhost:3001/dashboard', formData, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
       if (response.status === 200) {
         // Handle successful submission
