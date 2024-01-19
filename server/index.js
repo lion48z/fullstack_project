@@ -22,7 +22,7 @@ app.use(express.json()); // built in middleware for parsing json sent in request
  });
 const authenticateToken = (req, res, next) => {
   //get the token from the authorization header
-  const authHeader = req.headers['Authorization'];
+  const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   //let token = null;
  // if (authHeader) {
