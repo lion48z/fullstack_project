@@ -1,0 +1,13 @@
+/* Dashboard.css */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  
+  .dashboard-item {
+    border: 1px solid #ccc;
+    padding: 16px;
+  }
+  

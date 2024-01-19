@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DashboardForm from './DashboardForm';
+import './Dashboard.css';
 //import { Grid, Paper, Typography } from '@mui/material';
 
 const Dashboard = () => {
@@ -15,7 +16,7 @@ const Dashboard = () => {
   useEffect(() => {
     // Retrieve the token from local storage
     const storedToken = localStorage.getItem('authToken');
-
+    console.log('Stored Token:', storedToken);
     if (storedToken) {
       setToken(storedToken);
       setIsLoggedIn(true);
@@ -58,7 +59,7 @@ const Dashboard = () => {
 
   return (
     <div>
-    <DashboardForm  />
+    {<DashboardForm  />}
 
     <div className="dashboard-grid">
       <div className="dashboard-item">
