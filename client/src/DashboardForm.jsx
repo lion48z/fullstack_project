@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Button} from 'react-bootstrap'
 
 const DashboardForm = ({token}) => {
   const [formData, setFormData] = useState({
@@ -68,7 +70,7 @@ const DashboardForm = ({token}) => {
         placeholder="Duration"
       />
 
-      <button type="submit">Submit</button>
+      <Button type="submit">Submit</Button>
     </form>
   );
 };
