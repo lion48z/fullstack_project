@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button} from 'react-bootstrap'
 
@@ -10,6 +11,7 @@ const DashboardForm = ({token}) => {
     distance: '',
     duration: '',
   });
+  const navigate = useNavigate();
   const { activityType, date, distance, duration } = formData;
 
   const onChange = (e) => {
@@ -35,6 +37,7 @@ const DashboardForm = ({token}) => {
           distance: '',
           duration: '',
         });
+        navigate('/dashboard', { replace: true });
       } else {
         // Handle submission failure
         console.error('Post failed');
