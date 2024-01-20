@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import {Button} from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -79,7 +81,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button onClick={handleLogin}>Log In</button>
+          <Button onClick={handleLogin}>Log In</Button>
           <p>Not a user? Click below <Link to="/register">Register</Link></p>
         </>
       )}
