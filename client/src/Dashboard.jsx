@@ -3,6 +3,7 @@ import axios from 'axios';
 import  './DashboardStyle.css'
 import DashboardForm from './DashboardForm'
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 const Dashboard = () => {
   const [token, setToken] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -12,6 +13,8 @@ const Dashboard = () => {
     totalWalkDistance: '',
     totalBikeDistance: '',
   });
+  const [editing, setEditing] = useState(false);
+  const [formData, setFormData] = useState({});
   useEffect(() => {
     // Retrieve the token from local storage
     const storedToken = localStorage.getItem('authToken');
@@ -49,6 +52,40 @@ const Dashboard = () => {
       alert('Error retrieving dashboard data', error);
     }
   };
+  const handleEdit = (activity) => {
+    // Set the formData state in DashboardForm for editing
+    setEditing(true); // You can use a state variable like editing to differentiate between creating and editing
+    setFormData({
+      activityType: activity.activity_type,
+      date: activity.date,
+      distance: activity.distance,
+      duration: activity.duration,
+      activityId: activity.activity_id,
+    });
+  };
+  const handleDelete = async (activityId) => {
+    try {
+      const response = await axios.delete(`http://localhost:3001/dashboard/delete/${activityId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+  
+      if (response.status === 200) {
+        // Handle successful deletion (e.g., update state to remove the deleted activity)
+        console.log('Activity deleted successfully');
+        // Update state or refetch dashboard data
+        getDashboard();
+      } else {
+        // Handle deletion failure
+        console.error('Delete failed');
+      }
+    } catch (error) {
+      // Handle error, display an error message, or perform any other actions
+      console.error('Error:', error.response.data);
+    }
+  };
+  
   const { activities, totalRunDistance, totalWalkDistance, totalBikeDistance } = dashboardData;
   useEffect(() => {
    
@@ -60,7 +97,14 @@ const Dashboard = () => {
 
   return (
     <div>
-   <DashboardForm token={token}  />
+     <DashboardForm
+        token={token}
+        editing={editing}
+        setEditing={setEditing}
+        getDashboard={getDashboard}
+        formData={formData}
+        setFormData={setFormData}
+      />
 
     <div className="dashboard-grid">
       <div className="dashboard-item">
@@ -79,17 +123,22 @@ const Dashboard = () => {
       </div>
 
       {activities?.map((activity) => (
-        <div key={activity.activity_id} className="dashboard-item">
-          <h3>{activity.activity_type}</h3>
-          <p>Date: {new Date(activity.date).toLocaleDateString()}</p>
-          <p>Distance: {activity.distance} miles</p>
-          <p>Duration: {activity.duration}</p>
-        </div>
-      ))}
-    </div>
+    <div key={activity.activity_id} className="dashboard-item">
+    <h3>{activity.activity_type}</h3>
+    <p>Date: {new Date(activity.date).toLocaleDateString()}</p>
+    <p>Distance: {activity.distance} miles</p>
+    <p>Duration: {activity.duration}</p>
+    
+    <button onClick={() => handleEdit(activity)}>Edit</button>
+    <button onClick={() => handleDelete(activity.activity_id)}>Delete</button>
   </div>
-  );
-};
+ 
+
+))}
+</div>
+
+</div>
+)}
 
 export default Dashboard;
 

@@ -10,9 +10,11 @@ const DashboardForm = ({token}) => {
     date: '',
     distance: '',
     duration: '',
+    activityId: null,  // for editing
   });
+  const [editing, setEditing] = useState(false);
   const navigate = useNavigate();
-  const { activityType, date, distance, duration } = formData;
+  const { activityType, date, distance, duration, activityId } = formData;
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -47,6 +49,37 @@ const DashboardForm = ({token}) => {
       console.error('Error:', error.response.data);
     }
   };
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await axios.put(`http://localhost:3001/dashboard/edit/${activityId}`, formData, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+  
+      if (response.status === 200) {
+        // Handle successful update
+        console.log('Update success', response.data);
+        setFormData({
+          activityType: '',
+          date: '',
+          distance: '',
+          duration: '',
+          activityId: null,
+        });
+        setEditing(false); // Exit editing mode
+        navigate('/dashboard', { replace: true });
+      } else {
+        // Handle update failure
+        console.error('Update failed');
+      }
+    } catch (error) {
+      // Handle error, display an error message, or perform any other actions
+      console.error('Error:', error.response.data);
+    }
+  };
 
   return (
     <form onSubmit={onSubmit}>
@@ -72,8 +105,9 @@ const DashboardForm = ({token}) => {
         name="duration"
         placeholder="Duration"
       />
-
-      <Button type="submit">Submit</Button>
+      
+    {editing && <button onClick={handleUpdate}>Update</button>}
+    {!editing && <button type="submit">Submit</button>}
     </form>
   );
 };
