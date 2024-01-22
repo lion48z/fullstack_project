@@ -172,6 +172,71 @@ console.log('userId:', userId)
     res.status(500).send(error.message);
   }
 });
+app.put('/dashboard/edit/:activityId', authenticateToken, async (req, res) => {
+  const userId = req.user.userId;
+  const activityId = req.params.activityId;
+  const { activityType, date, distance, duration } = req.body;
+
+  try {
+    let result;
+
+    switch (activityType) {
+      case 'run':
+        result = await pool.query('UPDATE run SET date = $1, distance = $2, duration = $3 WHERE user_id = $4 AND run_id = $5 RETURNING *', [date, distance, duration, userId, activityId]);
+        break;
+      case 'walk':
+        result = await pool.query('UPDATE walk SET date = $1, distance = $2, duration = $3 WHERE user_id = $4 AND walk_id = $5 RETURNING *', [date, distance, duration, userId, activityId]);
+        break;
+      case 'bike':
+        result = await pool.query('UPDATE bike SET date = $1, distance = $2, duration = $3 WHERE user_id = $4 AND bike_id = $5 RETURNING *', [date, distance, duration, userId, activityId]);
+        break;
+      default:
+        return res.status(400).json({ error: 'Invalid activity type' });
+    }
+
+    if (result.rows.length > 0) {
+      res.json(result.rows[0]);
+    } else {
+      res.status(404).json({ error: 'Activity not found or does not belong to the user' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error.message);
+  }
+});
+app.delete('/dashboard/delete/:activityId', authenticateToken, async (req, res) => {
+  const userId = req.user.userId;
+  const activityId = req.params.activityId;
+  const { activityType } = req.body;
+
+  try {
+    let result;
+
+    switch (activityType) {
+      case 'run':
+        result = await pool.query('DELETE FROM run WHERE user_id = $1 AND run_id = $2 RETURNING *', [userId, activityId]);
+        break;
+      case 'walk':
+        result = await pool.query('DELETE FROM walk WHERE user_id = $1 AND walk_id = $2 RETURNING *', [userId, activityId]);
+        break;
+      case 'bike':
+        result = await pool.query('DELETE FROM bike WHERE user_id = $1 AND bike_id = $2 RETURNING *', [userId, activityId]);
+        break;
+      default:
+        return res.status(400).json({ error: 'Invalid activity type' });
+    }
+
+    if (result.rows.length > 0) {
+      res.json({ message: 'Activity deleted successfully' });
+    } else {
+      res.status(404).json({ error: 'Activity not found or does not belong to the user' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error.message);
+  }
+});
+
 
 
 
