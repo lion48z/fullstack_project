@@ -53,6 +53,7 @@ const Dashboard = () => {
     }
   };
   const handleEdit = (activity) => {
+    console.log('Editing activity:', activity);
     // Set the formData state in DashboardForm for editing
     setEditing(true); // You can use a state variable like editing to differentiate between creating and editing
     setFormData({
@@ -63,7 +64,10 @@ const Dashboard = () => {
       activityId: activity.activity_id,
     });
   };
+ 
   const handleDelete = async (activityId) => {
+    console.log(activityId)
+    console.log('Delete activity:', activityId);
     try {
       const response = await axios.delete(`http://localhost:3001/dashboard/delete/${activityId}`, {
         headers: {
@@ -97,6 +101,7 @@ const Dashboard = () => {
 
   return (
     <div>
+       {editing ? (
      <DashboardForm
         token={token}
         editing={editing}
@@ -105,7 +110,7 @@ const Dashboard = () => {
         formData={formData}
         setFormData={setFormData}
       />
-
+      ) : (
     <div className="dashboard-grid">
       <div className="dashboard-item">
         <h3>Total Run Distance</h3>
@@ -136,7 +141,7 @@ const Dashboard = () => {
 
 ))}
 </div>
-
+  )}
 </div>
 )}
 
