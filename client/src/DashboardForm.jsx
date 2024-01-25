@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button} from 'react-bootstrap'
 
-const DashboardForm = ({token}) => {
+const DashboardForm = ({token, getDashboard}) => {
   const [formData, setFormData] = useState({
     activityType: '',
     date: '',
@@ -70,7 +70,8 @@ const DashboardForm = ({token}) => {
           activityId: null,
         });
         setEditing(false); // Exit editing mode
-        navigate('/dashboard', { replace: true });
+        //navigate('/dashboard', { replace: true });
+        getDashboard();
       } else {
         // Handle update failure
         console.error('Update failed');
