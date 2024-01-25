@@ -65,14 +65,15 @@ const Dashboard = () => {
     });
   };
  
-  const handleDelete = async (activityId) => {
+  const handleDelete = async (activityId, activityType) => {
     console.log(activityId)
     console.log('Delete activity:', activityId);
     try {
       const response = await axios.delete(`http://localhost:3001/dashboard/delete/${activityId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
-        }
+        },
+        data: { activityType }
       });
   
       if (response.status === 200) {
@@ -135,7 +136,7 @@ const Dashboard = () => {
     <p>Duration: {activity.duration}</p>
     
     <button onClick={() => handleEdit(activity)}>Edit</button>
-    <button onClick={() => handleDelete(activity.activity_id)}>Delete</button>
+    <button onClick={() => handleDelete(activity.activity_id, activity.activity_type)}>Delete</button>
   </div>
  
 
