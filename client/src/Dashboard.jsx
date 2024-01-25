@@ -55,7 +55,8 @@ const Dashboard = () => {
   const handleEdit = (activity) => {
     console.log('Editing activity:', activity);
     // Set the formData state in DashboardForm for editing
-    setEditing(true); // You can use a state variable like editing to differentiate between creating and editing
+    setEditing(true);
+   // You can use a state variable like editing to differentiate between creating and editing
     setFormData({
       activityType: activity.activity_type,
       date: activity.date,

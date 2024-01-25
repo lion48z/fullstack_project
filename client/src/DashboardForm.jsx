@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button} from 'react-bootstrap'
 
-const DashboardForm = ({token, getDashboard}) => {
+const DashboardForm = ({token, getDashboard, editing, setEditing}) => {
   const [formData, setFormData] = useState({
     activityType: '',
     date: '',
@@ -12,9 +12,9 @@ const DashboardForm = ({token, getDashboard}) => {
     duration: '',
     activityId: null,  // for editing
   });
-  const [editing, setEditing] = useState(false);
+  //const [editing, setEditing] = useState(false);
   const navigate = useNavigate();
-  const { activityType, date, distance, duration, activityId } = formData;
+const { activityType, date, distance, duration, activityId } = formData;
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -51,8 +51,10 @@ const DashboardForm = ({token, getDashboard}) => {
   };
   const handleUpdate = async (e) => {
     e.preventDefault();
-  
+    
     try {
+     
+
       const response = await axios.put(`http://localhost:3001/dashboard/edit/${activityId}`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -69,8 +71,8 @@ const DashboardForm = ({token, getDashboard}) => {
           duration: '',
           activityId: null,
         });
-        setEditing(false); // Exit editing mode
-        //navigate('/dashboard', { replace: true });
+        setEditing(false); 
+        navigate('/dashboard', { replace: true });
         getDashboard();
       } else {
         // Handle update failure
