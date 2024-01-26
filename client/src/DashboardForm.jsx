@@ -4,14 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import {Button} from 'react-bootstrap'
 
 const DashboardForm = ({token, getDashboard, editing, setEditing, formData, setFormData}) => {
-  /* const [formData, setFormData] = useState({
-    activityType: '',
-    date: '',
-    distance: '',
-    duration: '',
-    activityId: props.formData?.activityId || null,  // for editing
-  });*/
-  //const [editing, setEditing] = useState(false);
+
 
   const navigate = useNavigate();
 const { activityType, date, distance, duration, activityId } = formData;
@@ -40,6 +33,7 @@ const { activityType, date, distance, duration, activityId } = formData;
           duration: '',
         });
         navigate('/dashboard', { replace: true });
+        getDashboard()
       } else {
         // Handle submission failure
         console.error('Post failed');
@@ -90,7 +84,7 @@ const { activityType, date, distance, duration, activityId } = formData;
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={editing ? handleUpdate : onSubmit}>
       <input
         type="text"
         value={activityType}

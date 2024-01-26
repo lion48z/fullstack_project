@@ -104,7 +104,7 @@ const Dashboard = () => {
 
   return (
     <div>
-       {editing ? (
+       
      <DashboardForm
         token={token}
         editing={editing}
@@ -113,7 +113,7 @@ const Dashboard = () => {
         formData={formData}
         setFormData={setFormData}
         />
-      ) : (
+      
     <div className="dashboard-grid">
       <div className="dashboard-item">
         <h3>Total Run Distance</h3>
@@ -144,7 +144,7 @@ const Dashboard = () => {
 
 ))}
 </div>
-  )}
+  
 </div>
 )}
 

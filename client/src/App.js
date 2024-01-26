@@ -15,15 +15,7 @@ function App() {
     setIsLoggedIn(true);
   };
 
-  // Check for token in local storage during the initial render
-  useEffect(() => {
-    const storedToken = localStorage.getItem('authToken');
 
-    if (storedToken) {
-      setToken(storedToken);
-      setIsLoggedIn(true);
-    }
-  }, []); // Empty dependency array to ensure this runs only once during the initial render
 
   return (
     <Router>
