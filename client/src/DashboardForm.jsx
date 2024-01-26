@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button} from 'react-bootstrap'
 
-const DashboardForm = ({token, getDashboard, editing, setEditing}) => {
-  const [formData, setFormData] = useState({
+const DashboardForm = ({token, getDashboard, editing, setEditing, formData, setFormData}) => {
+ /* const [formData, setFormData] = useState({
     activityType: '',
     date: '',
     distance: '',
     duration: '',
-    activityId: null,  // for editing
-  });
+    activityId: props.formData?.activityId || null,  // for editing
+  });*/
   //const [editing, setEditing] = useState(false);
   const navigate = useNavigate();
 const { activityType, date, distance, duration, activityId } = formData;
@@ -53,7 +53,10 @@ const { activityType, date, distance, duration, activityId } = formData;
     e.preventDefault();
     
     try {
-     
+      if (!formData.activityId) {
+        console.error('Activity ID is undefined or null');
+        return;
+      }
 
       const response = await axios.put(`http://localhost:3001/dashboard/edit/${activityId}`, formData, {
         headers: {
@@ -69,7 +72,7 @@ const { activityType, date, distance, duration, activityId } = formData;
           date: '',
           distance: '',
           duration: '',
-          activityId: null,  //formData.activityId change to this maybe
+          activityId: formData.activityId || null,  
         });
         setEditing(false); 
         navigate('/dashboard', { replace: true });
