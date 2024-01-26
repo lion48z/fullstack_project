@@ -69,7 +69,7 @@ const { activityType, date, distance, duration, activityId } = formData;
           date: '',
           distance: '',
           duration: '',
-          activityId: null,
+          activityId: null,  //formData.activityId change to this maybe
         });
         setEditing(false); 
         navigate('/dashboard', { replace: true });
