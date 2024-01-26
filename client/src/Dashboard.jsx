@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import  './DashboardStyle.css'
 import DashboardForm from './DashboardForm'
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const Dashboard = () => {
   const [token, setToken] = useState('');
