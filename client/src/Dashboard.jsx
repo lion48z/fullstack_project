@@ -65,6 +65,7 @@ const Dashboard = () => {
       activityId: activity.activity_id,
     });
   };
+
  
   const handleDelete = async (activityId, activityType) => {
     console.log(activityId)
@@ -91,7 +92,7 @@ const Dashboard = () => {
       console.error('Error:', error.response.data);
     }
   };
-  
+
   const { activities, totalRunDistance, totalWalkDistance, totalBikeDistance } = dashboardData;
   useEffect(() => {
    
@@ -111,7 +112,7 @@ const Dashboard = () => {
         getDashboard={getDashboard}
         formData={formData}
         setFormData={setFormData}
-      />
+        />
       ) : (
     <div className="dashboard-grid">
       <div className="dashboard-item">
