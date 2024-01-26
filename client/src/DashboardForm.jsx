@@ -5,14 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button} from 'react-bootstrap'
 
 const DashboardForm = ({token, getDashboard, editing, setEditing, formData, setFormData}) => {
- /* const [formData, setFormData] = useState({
-    activityType: '',
-    date: '',
-    distance: '',
-    duration: '',
-    activityId: props.formData?.activityId || null,  // for editing
-  });*/
-  //const [editing, setEditing] = useState(false);
+
   const navigate = useNavigate();
 const { activityType, date, distance, duration, activityId } = formData;
 
