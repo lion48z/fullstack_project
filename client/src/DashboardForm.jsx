@@ -84,16 +84,23 @@ const { activityType, date, distance, duration, activityId } = formData;
   };
 
   return (
-    <form onSubmit={editing ? handleUpdate : onSubmit}>
+    <>
+    <h3>Submit New Activity</h3>
+    <form  onSubmit={editing ? handleUpdate : onSubmit}>
       <input
+        className="form-control"
         type="text"
         value={activityType}
         onChange={onChange}
         name="activityType"
         placeholder="Activity Type"
       />
-      <input type="text" value={date} onChange={onChange} name="date" placeholder="Date" />
+      <input 
+      className="form-control"
+      type="text" value={date} 
+      onChange={onChange} name="date" placeholder="Date" />
       <input
+        className="form-control"
         type="text"
         value={distance}
         onChange={onChange}
@@ -101,6 +108,7 @@ const { activityType, date, distance, duration, activityId } = formData;
         placeholder="Distance"
       />
       <input
+        className="form-control"
         type="text"
         value={duration}
         onChange={onChange}
@@ -110,6 +118,7 @@ const { activityType, date, distance, duration, activityId } = formData;
     {editing && <Button variant="warning" onClick={handleUpdate}>Update</Button>}
     {!editing && <Button type="submit">Submit</Button>}
     </form>
+    </>
   );
 };
 

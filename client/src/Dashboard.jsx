@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Card, Button } from 'react-bootstrap';
+import {  Card, Button } from 'react-bootstrap';
 
 import './DashboardStyle.css';
 import DashboardForm from './DashboardForm'
@@ -130,7 +130,8 @@ const Dashboard = () => {
 
   return (
     <div>
-      <DashboardForm
+     <h1 className="align-center">Your Dashboard</h1>
+     <DashboardForm
         token={token}
         editing={editing}
         setEditing={setEditing}
@@ -138,8 +139,8 @@ const Dashboard = () => {
         formData={formData}
         setFormData={setFormData}
       />
-
       <div className="dashboard-grid" >
+        
         <Card bg="success" >
           <Card.Body>
             <Card.Title>Total Run Distance</Card.Title>
@@ -178,6 +179,7 @@ const Dashboard = () => {
           </Card>
         ))}
       </div>
+    
     </div>
   );
 };

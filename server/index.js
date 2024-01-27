@@ -126,8 +126,8 @@ const combinedData = [
   ...bikeData.rows.map(activity => ({ ...activity, activity_type: 'bike' })),
 ];
 // Sort the combinedData array in descending order based on the 'date' property,
-// then take the first 5 items to get the most recent 5 activities.
-const sortedData = combinedData.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+// then take the first 5 items to get the most recent 12 activities.
+const sortedData = combinedData.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 12);
 //display total distance with as dashboardData using sortedDatat and total Distance for each activity
 const dashboardData = {
   activities: sortedData,
