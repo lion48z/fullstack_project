@@ -10,12 +10,13 @@ const Login = () => {
   const [token, setToken] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-  useEffect(() => {
+ useEffect(() => {
     console.log('client token: ', token);
    
   }, [token]);
 
   const handleLogin = async () => {
+   
     try {
       const response = await axios.post('http://localhost:3001/login', {
         username,
@@ -32,9 +33,11 @@ const Login = () => {
       if (response.status === 200) {
         const { token } = response.data
         console.log(token);
-        localStorage.setItem('authToken', token);
         setToken(token);
-        setIsLoggedIn(true);       
+        localStorage.setItem('authToken', token);
+        
+        setIsLoggedIn(true);  
+        console.log(isLoggedIn)     
         setUsername('');
         setPassword('');
         navigate('/dashboard');
@@ -45,14 +48,17 @@ const Login = () => {
       alert('An error occurred while logging in.');
     }
   }
+ 
   useEffect(() => {
     const fetchToken = async () => {
+     
       // Retrieve the token from local storage
       const storedToken = localStorage.getItem('authToken');
     
       if (storedToken) {
         // Set the token in the component state or global state management
         setToken(storedToken);
+        setIsLoggedIn(true);
       } else {
         // Handle the case when the user is not logged in
         console.log('User is not logged in');

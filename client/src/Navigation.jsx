@@ -1,7 +1,7 @@
 import React from 'react'
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 //Nav component 
-function Navigation() {
+function Navigation({ isLoggedIn, onLogout}) {
   //render Navbar with react-bootstrap library
 
   return (
@@ -14,8 +14,16 @@ function Navigation() {
             <CustomLink href="/home">Home</CustomLink>
             <CustomLink href="/register">Register</CustomLink>
             <CustomLink href="/dashboard">Dashboard</CustomLink>
-            <CustomLink href="/login">Login</CustomLink>
+            {/*<CustomLink href="/login">Login</CustomLink>*/}
           </Nav>
+          {isLoggedIn ? (
+            // If user is logged in, display the logout button
+            <Button variant="outline-secondary" onClick={onLogout}>
+              Logout
+            </Button>
+          ) : (
+             <CustomLink href="/login">Login</CustomLink>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

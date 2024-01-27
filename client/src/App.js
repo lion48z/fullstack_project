@@ -14,13 +14,18 @@ function App() {
     setToken(token);
     setIsLoggedIn(true);
   };*/
-
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    
+  
+  };
 
 
   return (
     <Router>
       <>
-      <Navigation />
+      <Navigation onLogout={handleLogout}
+       />
         <div>
           <h1>Workout Tracker</h1>
       
