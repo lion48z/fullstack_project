@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, Button } from 'react-bootstrap';
+import { Container, Card, Button } from 'react-bootstrap';
 
 import './DashboardStyle.css';
 import DashboardForm from './DashboardForm'
@@ -139,22 +139,22 @@ const Dashboard = () => {
         setFormData={setFormData}
       />
 
-      <div className="dashboard-grid">
-        <Card>
+      <div className="dashboard-grid" >
+        <Card bg="success" >
           <Card.Body>
             <Card.Title>Total Run Distance</Card.Title>
             <Card.Text>{totalRunDistance} miles</Card.Text>
           </Card.Body>
         </Card>
 
-        <Card>
+        <Card bg="success">
           <Card.Body>
             <Card.Title>Total Walk Distance</Card.Title>
             <Card.Text>{totalWalkDistance} miles</Card.Text>
           </Card.Body>
         </Card>
 
-        <Card>
+        <Card bg="success">
           <Card.Body>
             <Card.Title>Total Bike Distance</Card.Title>
             <Card.Text>{totalBikeDistance} miles</Card.Text>
@@ -162,8 +162,8 @@ const Dashboard = () => {
         </Card>
 
         {activities?.map((activity) => (
-          <Card key={activity.activity_id}>
-            <Card.Body>
+          <Card key={activity.activity_id} bg="primary">
+            <Card.Body >
               <Card.Title>{activity.activity_type.toUpperCase()}</Card.Title>
               <Card.Text>Date: {new Date(activity.date).toLocaleDateString()}</Card.Text>
               <Card.Text>Distance: {activity.distance} miles</Card.Text>
