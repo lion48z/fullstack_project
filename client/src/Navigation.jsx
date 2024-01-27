@@ -1,7 +1,7 @@
 import React from 'react'
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 //Nav component 
-function Navigation({ isLoggedIn, onLogout}) {
+const Navigation = ({ isLoggedIn }) => {
   //render Navbar with react-bootstrap library
 
   return (
@@ -18,7 +18,7 @@ function Navigation({ isLoggedIn, onLogout}) {
           </Nav>
           {isLoggedIn ? (
             // If user is logged in, display the logout button
-            <Button variant="outline-secondary" onClick={onLogout}>
+            <Button variant="outline-secondary" >
               Logout
             </Button>
           ) : (

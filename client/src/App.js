@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Navigation from './Navigation'
@@ -28,8 +28,7 @@ function App() {
         <div>
           <h1 style={ {textAlign: "center"}}>Workout Tracker</h1>
       
-            <Login 
-             />
+            <Login   />
          
         </div>
         <Routes>
