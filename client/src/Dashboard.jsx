@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import  './DashboardStyle.css'
+import { Card, Button } from 'react-bootstrap';
+
+import './DashboardStyle.css';
 import DashboardForm from './DashboardForm'
 
 
@@ -104,49 +106,57 @@ const Dashboard = () => {
 
   return (
     <div>
-       
-     <DashboardForm
+      <DashboardForm
         token={token}
         editing={editing}
         setEditing={setEditing}
         getDashboard={getDashboard}
         formData={formData}
         setFormData={setFormData}
-        />
-      
-    <div className="dashboard-grid">
-      <div className="dashboard-item">
-        <h3>Total Run Distance</h3>
-        <p>{totalRunDistance} miles</p>
+      />
+
+      <div className="dashboard-grid">
+        <Card>
+          <Card.Body>
+            <Card.Title>Total Run Distance</Card.Title>
+            <Card.Text>{totalRunDistance} miles</Card.Text>
+          </Card.Body>
+        </Card>
+
+        <Card>
+          <Card.Body>
+            <Card.Title>Total Walk Distance</Card.Title>
+            <Card.Text>{totalWalkDistance} miles</Card.Text>
+          </Card.Body>
+        </Card>
+
+        <Card>
+          <Card.Body>
+            <Card.Title>Total Bike Distance</Card.Title>
+            <Card.Text>{totalBikeDistance} miles</Card.Text>
+          </Card.Body>
+        </Card>
+
+        {activities?.map((activity) => (
+          <Card key={activity.activity_id}>
+            <Card.Body>
+              <Card.Title>{activity.activity_type}</Card.Title>
+              <Card.Text>Date: {new Date(activity.date).toLocaleDateString()}</Card.Text>
+              <Card.Text>Distance: {activity.distance} miles</Card.Text>
+              <Card.Text>Duration: {activity.duration}</Card.Text>
+              <Button variant="warning" onClick={() => handleEdit(activity)}>
+                Edit
+              </Button>
+              <Button variant="danger" onClick={() => handleDelete(activity.activity_id, activity.activity_type)}>
+                Delete
+              </Button>
+            </Card.Body>
+          </Card>
+        ))}
       </div>
-
-      <div className="dashboard-item">
-        <h3>Total Walk Distance</h3>
-        <p>{totalWalkDistance} miles</p>
-      </div>
-
-      <div className="dashboard-item">
-        <h3>Total Bike Distance</h3>
-        <p>{totalBikeDistance} miles</p>
-      </div>
-
-      {activities?.map((activity) => (
-    <div key={activity.activity_id} className="dashboard-item">
-    <h3>{activity.activity_type}</h3>
-    <p>Date: {new Date(activity.date).toLocaleDateString()}</p>
-    <p>Distance: {activity.distance} miles</p>
-    <p>Duration: {activity.duration}</p>
-    
-    <button onClick={() => handleEdit(activity)}>Edit</button>
-    <button onClick={() => handleDelete(activity.activity_id, activity.activity_type)}>Delete</button>
-  </div>
- 
-
-))}
-</div>
-  
-</div>
-)}
+    </div>
+  );
+};
 
 export default Dashboard;
 

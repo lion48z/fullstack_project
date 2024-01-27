@@ -105,10 +105,10 @@ const { activityType, date, distance, duration, activityId } = formData;
         value={duration}
         onChange={onChange}
         name="duration"
-        placeholder="Duration"
+        placeholder="Duration 00:00:00"
       />
-    {editing && <button onClick={handleUpdate}>Update</button>}
-    {!editing && <button type="submit">Submit</button>}
+    {editing && <Button variant="warning" onClick={handleUpdate}>Update</Button>}
+    {!editing && <Button type="submit">Submit</Button>}
     </form>
   );
 };
