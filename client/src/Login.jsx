@@ -65,7 +65,7 @@ const Login = () => {
      
     return (
     <div>
-     {isLoggedIn ? (
+     {isLoggedIn && token ? (
         <p>Welcome back to your dashboard!</p>
       ) : (
         <>

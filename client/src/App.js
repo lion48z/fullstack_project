@@ -8,12 +8,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [token, setToken] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLoginSuccess = () => {
+/*  const handleLoginSuccess = () => {
     setToken(token);
     setIsLoggedIn(true);
-  };
+  };*/
 
 
 
@@ -23,10 +23,10 @@ function App() {
       <Navigation />
         <div>
           <h1>Workout Tracker</h1>
-          {!isLoggedIn ? (
-            <Login onLoginSuccess={handleLoginSuccess}
+      
+            <Login 
              />
-          ) : null}
+         
         </div>
         <Routes>
           <Route path="/" element={<div>Home Page</div>} />

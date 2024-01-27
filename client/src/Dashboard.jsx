@@ -100,8 +100,32 @@ const Dashboard = () => {
    
     getDashboard();
   }, [token, isLoggedIn]); 
-  if (!activities || activities.length === 0) {
-    return <div>Loading...</div>; // or render a loading state or an error message
+
+  if (!isLoggedIn) {
+    // Handle the case when the user is not logged in
+    return <div>User is not logged in</div>;
+  }
+
+  if (!activities) {
+    // Handle the case when activities are still loading
+    return <div>Loading...</div>;
+  }
+
+  if (activities.length === 0) {
+    // Render the DashboardForm when there are no activities
+    return (
+      <div>
+        <DashboardForm
+          token={token}
+          editing={editing}
+          setEditing={setEditing}
+          getDashboard={getDashboard}
+          formData={formData}
+          setFormData={setFormData}
+        />
+        <div>No activities found. Start adding activities using the form above.</div>
+      </div>
+    );
   }
 
   return (
