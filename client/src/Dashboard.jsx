@@ -164,7 +164,7 @@ const Dashboard = () => {
         {activities?.map((activity) => (
           <Card key={activity.activity_id}>
             <Card.Body>
-              <Card.Title>{activity.activity_type}</Card.Title>
+              <Card.Title>{activity.activity_type.toUpperCase()}</Card.Title>
               <Card.Text>Date: {new Date(activity.date).toLocaleDateString()}</Card.Text>
               <Card.Text>Distance: {activity.distance} miles</Card.Text>
               <Card.Text>Duration: {activity.duration}</Card.Text>
