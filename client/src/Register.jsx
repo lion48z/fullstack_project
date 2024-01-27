@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import {Button} from 'react-bootstrap'
 
 
 const Register = () => {
@@ -69,7 +70,7 @@ try {
           onChange={onChange}
         />
       <br />
-      <button type="submit" >Register</button>
+      <Button type="submit" >Register</Button>
       </form>
     
   </div>
