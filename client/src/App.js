@@ -26,7 +26,7 @@ function App() {
       <>
       <Navigation isLoggedIn={token} onLogout={handleLogout} />
         <div>
-          <h1>Workout Tracker</h1>
+          <h1 style={ {textAlign: "center"}}>Workout Tracker</h1>
       
             <Login 
              />

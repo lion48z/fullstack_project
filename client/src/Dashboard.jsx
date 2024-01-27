@@ -130,7 +130,7 @@ const Dashboard = () => {
 
   return (
     <div>
-     <h1 className="align-center">Your Dashboard</h1>
+   
      <DashboardForm
         token={token}
         editing={editing}
@@ -139,6 +139,7 @@ const Dashboard = () => {
         formData={formData}
         setFormData={setFormData}
       />
+  <h1 style={ {textAlign: "center"}} >Your Dashboard</h1>
       <div className="dashboard-grid" >
         
         <Card bg="success" >

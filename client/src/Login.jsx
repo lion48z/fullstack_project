@@ -58,7 +58,7 @@ const Login = () => {
       if (storedToken) {
         // Set the token in the component state or global state management
         setToken(storedToken);
-        setIsLoggedIn(true);
+        setIsLoggedIn(true);    
       } else {
         // Handle the case when the user is not logged in
         console.log('User is not logged in');
@@ -71,8 +71,8 @@ const Login = () => {
      
     return (
     <div>
-     {isLoggedIn && token ? (
-        <p>Welcome back to your dashboard!</p>
+     {isLoggedIn ? (
+        <p style={ {textAlign: "center"}}>Welcome back to your dashboard!</p>
       ) : (
         <>
           <input
