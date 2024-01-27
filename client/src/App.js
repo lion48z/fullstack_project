@@ -16,7 +16,7 @@ function App() {
   };*/
   const handleLogout = () => {
     localStorage.removeItem('authToken');
-    
+    setToken('')
   
   };
 
@@ -24,8 +24,7 @@ function App() {
   return (
     <Router>
       <>
-      <Navigation onLogout={handleLogout}
-       />
+      <Navigation isLoggedIn={token} onLogout={handleLogout} />
         <div>
           <h1>Workout Tracker</h1>
       
