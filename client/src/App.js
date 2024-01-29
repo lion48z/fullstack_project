@@ -7,24 +7,20 @@ import Register from './Register';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [token, setToken] = useState('');
+ const [token, setToken] = useState('');
   //const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 /*  const handleLoginSuccess = () => {
     setToken(token);
     setIsLoggedIn(true);
   };*/
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    setToken('')
-  
-  };
+
 
 
   return (
     <Router>
       <>
-      <Navigation isLoggedIn={token} onLogout={handleLogout} />
+      <Navigation  />
         <div>
           <h1 style={ {textAlign: "center"}}>Workout Tracker</h1>
       

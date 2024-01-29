@@ -27,7 +27,7 @@ const Dashboard = () => {
       // Fetch dashboard data using the stored token
       getDashboard(storedToken);
     } else {
-      // Handle the case when the user is not logged in
+     
       console.log('User is not logged in');
     }
   }, []);
@@ -47,7 +47,7 @@ const Dashboard = () => {
           setDashboardData(response.data);
         }
       } else {
-        // Handle the case when the user is not logged in
+        
         console.log('User is not logged in');
       }
     } catch (error) {
@@ -56,9 +56,9 @@ const Dashboard = () => {
   };
   const handleEdit = (activity) => {
     console.log('Editing activity:', activity);
-    // Set the formData state in DashboardForm for editing
+    
     setEditing(true);
-   // You can use a state variable like editing to differentiate between creating and editing
+  
     setFormData({
       activityType: activity.activity_type,
       date: activity.date,
@@ -81,16 +81,16 @@ const Dashboard = () => {
       });
   
       if (response.status === 200) {
-        // Handle successful deletion (e.g., update state to remove the deleted activity)
+        
         console.log('Activity deleted successfully');
-        // Update state or refetch dashboard data
+        
         getDashboard();
       } else {
-        // Handle deletion failure
+       
         console.error('Delete failed');
       }
     } catch (error) {
-      // Handle error, display an error message, or perform any other actions
+      
       console.error('Error:', error.response.data);
     }
   };

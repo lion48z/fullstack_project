@@ -16,14 +16,7 @@ const Navigation = ({ isLoggedIn }) => {
             <CustomLink href="/dashboard">Dashboard</CustomLink>
             {/*<CustomLink href="/login">Login</CustomLink>*/}
           </Nav>
-          {isLoggedIn ? (
-            // If user is logged in, display the logout button
-            <Button variant="outline-secondary" >
-              Logout
-            </Button>
-          ) : (
-             <CustomLink href="/login">Login</CustomLink>
-          )}
+      
         </Navbar.Collapse>
       </Container>
     </Navbar>
