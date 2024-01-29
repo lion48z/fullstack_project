@@ -1,7 +1,8 @@
 import React from 'react'
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container} from 'react-bootstrap';
+
 //Nav component 
-const Navigation = ({ isLoggedIn }) => {
+const Navigation = () => {
   //render Navbar with react-bootstrap library
 
   return (
@@ -11,10 +12,10 @@ const Navigation = ({ isLoggedIn }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" /> {/*Navbar toggle responsive to use of small screens*/}
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <CustomLink href="/home">Home</CustomLink>
+            <CustomLink href="/">Home</CustomLink>
             <CustomLink href="/register">Register</CustomLink>
             <CustomLink href="/dashboard">Dashboard</CustomLink>
-            {/*<CustomLink href="/login">Login</CustomLink>*/}
+            
           </Nav>
       
         </Navbar.Collapse>

@@ -23,8 +23,8 @@ function App() {
       <Navigation  />
         <div>
           <h1 style={ {textAlign: "center"}}>Workout Tracker</h1>
-      
-            <Login   />
+          <Login   />
+           
          
         </div>
         <Routes>

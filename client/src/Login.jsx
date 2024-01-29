@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { Button } from 'react-bootstrap';
+import {Button} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Login = () => {
@@ -10,23 +10,13 @@ const Login = () => {
   const [token, setToken] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchToken = async () => {
-      const storedToken = localStorage.getItem('authToken');
-
-      if (storedToken) {
-        setToken(storedToken);
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false); 
-      }
-    };
-
-    fetchToken();
-  }, []);
+ useEffect(() => {
+    console.log('client token: ', token);
+   
+  }, [token]);
 
   const handleLogin = async () => {
+   
     try {
       const response = await axios.post('http://localhost:3001/login', {
         username,
@@ -34,14 +24,19 @@ const Login = () => {
       }, {
         headers: {
           'Content-Type': 'application/json',
+          
         },
       });
+    
+      
 
       if (response.status === 200) {
-        const { token } = response.data;
+        const { token } = response.data
+        console.log(token);
         setToken(token);
-        localStorage.setItem('authToken', token);
-        setIsLoggedIn(true);
+        localStorage.setItem('authToken', token);        
+        setIsLoggedIn(true);  
+        console.log(isLoggedIn)     
         setUsername('');
         setPassword('');
         navigate('/dashboard');
@@ -51,18 +46,38 @@ const Login = () => {
     } catch (error) {
       alert('An error occurred while logging in.');
     }
-  };
+  }
 
+ 
+  useEffect(() => {
+    const fetchToken = async () => {
+     
+      // Retrieve the token from local storage
+      const storedToken = localStorage.getItem('authToken');
+    
+      if (storedToken) {
+        // Set the token in the component state or global state management
+        setToken(storedToken);
+        setIsLoggedIn(true);    
+      } else {
+        // Handle the case when the user is not logged in
+        console.log('User is not logged in');
+      }
+    };
+  
+    fetchToken();
+  }, []);
   const handleLogout = () => {
     
-    localStorage.removeItem('authToken');
-  
+    localStorage.removeItem('authToken');  
     setIsLoggedIn(false);
-  
+    navigate('/');
+
   };
 
-  return (
-    <div>
+     
+    return (
+      <div>
       {isLoggedIn ? (
         <>
           <p style={{ textAlign: 'center' }}>Welcome back to your dashboard!</p>
@@ -89,8 +104,9 @@ const Login = () => {
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
+
 
