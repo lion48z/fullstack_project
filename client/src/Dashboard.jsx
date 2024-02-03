@@ -163,7 +163,7 @@ const Dashboard = () => {
           </Card.Body>
         </Card>
 
-        {activities?.map((activity) => (
+        {activities?.map((activity) => (                            //mapping through with optional chaining to handle potential null or undefined
           <Card key={activity.activity_id} bg="primary">
             <Card.Body >
               <Card.Title>{activity.activity_type.toUpperCase()}</Card.Title>
