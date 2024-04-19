@@ -26,7 +26,7 @@ const authenticateToken = (req, res, next) => {
   const token = authHeader && authHeader.split(' ')[1];
   //let token = null;
  // if (authHeader) {
- // token = authHeader.split(' ')[1]; //"Bearer : flkjslkfjdlkfjwelkd"
+ // token = authHeader.split(' ')[1]; //"Bearer : flkjslkfjdlkfjwelkdg"
  // }
   if (!token) { 
      res.status(401).send();
